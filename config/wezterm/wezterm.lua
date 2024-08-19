@@ -10,8 +10,8 @@ local config = wezterm.config_builder()
 config.font_size = 14
 config.line_height = 1.2
 config.font = wezterm.font_with_fallback({
-	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium" },
-	{ family = "JetBrains Mono", weight = "Medium" },
+	{ family = "JetBrainsMono Nerd Font Mono", weight = "Medium", harfbuzz_features = { "calt=0", "clig=0", "liga=0" } },
+	{ family = "JetBrains Mono", weight = "Medium", harfbuzz_features = { "calt=0", "clig=0", "liga=0" } },
 })
 
 config.window_close_confirmation = "NeverPrompt"
