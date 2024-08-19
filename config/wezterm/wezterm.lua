@@ -14,6 +14,16 @@ config.font = wezterm.font_with_fallback({
 	{ family = "JetBrains Mono", weight = "Medium" },
 })
 
+config.window_close_confirmation = "NeverPrompt"
+config.skip_close_confirmation_for_processes_named = {
+	"bash",
+	"sh",
+	"zsh",
+	"fish",
+	"tmux",
+	"nu",
+}
+
 config.adjust_window_size_when_changing_font_size = false
 -- For example, changing the color scheme:
 config.color_scheme = "Tokyo Night"

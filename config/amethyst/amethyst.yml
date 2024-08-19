@@ -1,0 +1,65 @@
+# Custom amethyst configuration.
+#
+# For more information rtfm
+# https://github.com/ianyh/Amethyst/blob/development/docs/configuration-files.md
+
+# General configuration
+window-margins: true
+smart-window-margins: true
+window-margin-size: 2
+enables-layout-hud: true
+enables-layout-hud-on-space-change: false
+hide-menu-bar-icon: false
+
+layouts:
+  - tall
+  - fullscreen
+
+# Mod definition
+mod1:
+  - option
+  - control
+mod2:
+  - option
+  - shift
+  - control
+mod3:
+  - command
+  - control
+  -  shift
+
+# Floation of apps
+floating:
+  - com.apple.*
+  - com.valvesoftware.steam
+  - ru.keepcoder.Telegram
+  - com.docker.*
+
+# Key binding
+select-tall-layout:
+  mod: mod1
+  key: a
+select-fullscreen-layout:
+  mod: mod1
+  key: enter
+focus-screen-cw:
+  mod: mod3
+  key: d
+focus-screen-ccw:
+  mod: mod3
+  key: s
+throw-space-left:
+  mod: mod3
+  key: h
+throw-space-right:
+  mod: mod3
+  key: l
+swap-screen-cw:
+  mod: mod3
+  key: k
+swap-screen-ccw:
+  mod: mod3
+  key: j
+swap-main:
+  mod: mod1
+  key: s
