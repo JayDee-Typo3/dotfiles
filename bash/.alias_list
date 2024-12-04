@@ -1,2 +1,6 @@
 alias ddevUnitTest="ddev exec typo3DatabaseDriver='mysqli' typo3DatabaseHost='db' typo3DatabasePort=3306 typo3DatabaseUsername='root' typo3DatabasePassword='root' typo3DatabaseName='func' php vendor/bin/phpunit"
-
+alias "git co"="git checkout"
+alias gst="git status"
+alias gc="git commit"
+alias gcm="git commit -m"
+alias gp="git push"
