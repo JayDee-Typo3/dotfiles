@@ -113,5 +113,8 @@ source $ZSH/oh-my-zsh.sh
 # Load custom bash alias list
 source .alias_list
 
+# export neovim path
+export PATH="$HOME/.neovim/bin:$PATH"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
