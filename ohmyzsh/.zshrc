@@ -1,9 +1,15 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# ----------------------------
+# ZSH Instant Prompt Section
+# ----------------------------
+# OK to perform console I/O before this point.
+
+# Enable Powerlevel10k instant prompt (should stay close to the top of ~/.zshrc)
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
+
+# From this point on, until zsh is fully initialized, console input won't work and
+# console output may appear uncolored.
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
@@ -109,12 +115,16 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# Start keychain (only if installed)
+if command -v keychain >/dev/null 2>&1; then
+  keychain id_rsa --agents ssh
+fi
 
 # Load custom bash alias list
-source .alias_list
+[[ ! -f ~/.alias_list ]] || source ~/.alias_list
 
-# export neovim path
-export PATH="$HOME/.neovim/bin:$PATH"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
