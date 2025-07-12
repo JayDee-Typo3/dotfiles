@@ -7,5 +7,35 @@ alias gp="git push"
 alias cloud="ssh jdelesky@cloud.local"
 alias n="nvim"
 alias lg="lazygit"
-alias gsm="git switch $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
-alias gmm="git merge --no-ff $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
+#alias gsm="git switch $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
+#alias gmm="git merge --no-ff $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
+
+# Switch to the default branch from origin
+gsm() {
+  if git rev-parse --is-inside-work-tree &>/dev/null && \
+     git remote show origin &>/dev/null; then
+    branch=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | awk -F/ '{print $NF}')
+    if [[ -n "$branch" ]]; then
+      git switch "$branch"
+    else
+      echo "Could not detect default remote branch."
+    fi
+  else
+    echo "Not in a Git repository or 'origin' remote not found."
+  fi
+}
+
+# Merge with the default branch from origin
+gmm() {
+  if git rev-parse --is-inside-work-tree &>/dev/null && \
+     git remote show origin &>/dev/null; then
+    branch=$(git symbolic-ref --short refs/remotes/origin/HEAD 2>/dev/null | awk -F/ '{print $NF}')
+    if [[ -n "$branch" ]]; then
+      git merge --no-ff "$branch"
+    else
+      echo "Could not detect default remote branch."
+    fi
+  else
+    echo "Not in a Git repository or 'origin' remote not found."
+  fi
+}
