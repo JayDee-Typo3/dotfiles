@@ -7,6 +7,7 @@ alias gp="git push"
 alias cloud="ssh jdelesky@cloud.local"
 alias n="nvim"
 alias lg="lazygit"
+alias t=tmux
 #alias gsm="git switch $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
 #alias gmm="git merge --no-ff $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
 
