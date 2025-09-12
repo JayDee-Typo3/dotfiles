@@ -81,6 +81,7 @@ brew install awk
 brew install tmux
 brew install ddev
 brew install lazygit
+brew install mas
 
 ###############################################################################
 # Install LazyVim
