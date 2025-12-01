@@ -4,10 +4,12 @@ alias gst="git status"
 alias gc="git commit"
 alias gcm="git commit -m"
 alias gp="git push"
+alias gw="git switch"
 alias cloud="ssh jdelesky@cloud.local"
 alias n="nvim"
 alias lg="lazygit"
 alias t=tmux
+alias dtf="ddev typo3 cache:flush & echo 'flushing typo3 cache'"
 #alias gsm="git switch $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
 #alias gmm="git merge --no-ff $(awk -F "/" "{print \$NF}" .git/refs/remotes/origin/HEAD)"
 
@@ -38,5 +40,37 @@ gmm() {
     fi
   else
     echo "Not in a Git repository or 'origin' remote not found."
+  fi
+}
+
+cflush() {
+  echo "🔍 Checking DDEV project status..."
+
+  # Check if inside a DDEV project
+  if ! ddev describe &>/dev/null; then
+    echo "❌ Not inside a DDEV project (no .ddev directory or DDEV not initialized)."
+    return 1
+  fi
+
+  echo "✅ DDEV project detected."
+
+  # Detect available TYPO3 console command (TYPO3 v12+ uses 'typo3', older uses 'typo3cms')
+  if ddev exec test -x ./vendor/bin/typo3 &>/dev/null; then
+    TYPO3_CMD="./vendor/bin/typo3"
+  elif ddev exec test -x ./vendor/bin/typo3cms &>/dev/null; then
+    TYPO3_CMD="./vendor/bin/typo3cms"
+  else
+    echo "❌ No TYPO3 console found (neither typo3 nor typo3cms)."
+    return 1
+  fi
+
+  echo "🔄 Flushing TYPO3 cache using: $TYPO3_CMD cache:flush"
+
+  # Execute the cache flush
+  if ddev exec $TYPO3_CMD cache:flush; then
+    echo "✅ TYPO3 cache successfully flushed."
+  else
+    echo "❌ Failed to flush TYPO3 cache."
+    return 1
   fi
 }

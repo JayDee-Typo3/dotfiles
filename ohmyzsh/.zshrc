@@ -127,4 +127,7 @@ fi
 # Load custom bash alias list
 [[ ! -f ~/.alias_list ]] || source ~/.alias_list
 
+# Load local alias list file
+[[ ! -f ~/.alias_list_local ]] || source ~/.alias_list_local
+
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet

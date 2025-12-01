@@ -204,9 +204,9 @@ alt-shift-l = ['join-with right', 'mode main']
 
 # Force workspaces to monitores
 [workspace-to-monitor-force-assignment]
-2 = 2
-1 = 1
-3 = 3
+2 = ['LG HDR 4K', 'ROG XG27AQ']
+1 = ['main']
+3 = ['LG HDR 4K', 'XB271HU A']
 
 #  Window detection
 [[on-window-detected]]
