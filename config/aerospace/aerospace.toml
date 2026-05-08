@@ -204,9 +204,9 @@ alt-shift-l = ['join-with right', 'mode main']
 
 # Force workspaces to monitores
 [workspace-to-monitor-force-assignment]
-2 = ['LG HDR 4K', 'ROG XG27AQ']
+2 = ['LG HDR 4K', 'LEN P32p-20', 'ROG XG27AQ']
 1 = ['main']
-3 = ['LG HDR 4K', 'XB271HU A']
+3 = ['LG HDR 4K', 'XB271HU A', 'LEN P32p-20']
 
 #  Window detection
 [[on-window-detected]]
@@ -266,7 +266,7 @@ if.app-id = 'com.valvesoftware.steam'
 run = ['layout floating']
 
 [[on-window-detected]]
-if.app-id = 'ru.keepcoder.Telegram'
+if.app-id = 'com.tdesktop.Telegram'
 run = ['layout floating']
 
 [[on-window-detected]]
