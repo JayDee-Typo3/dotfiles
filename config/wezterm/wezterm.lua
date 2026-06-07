@@ -1,10 +1,13 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 local act = wezterm.action
-local mux = wezterm.mus
+local mux = wezterm.mux
 
 -- This will hold the configuration.
-local config = wezterm.config_builder()
+local config = {}
+if wezterm.config_builder then
+    config = wezterm.config_builder()
+end
 
 -- Font configurations.
 config.font_size = 14
@@ -39,9 +42,14 @@ config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 
 -- startup
-wezterm.on("gui-startup", function(cmd)
-    local tab, pane, window = mux.spawn_window(cmd or {})
-    window:gui_window():maximize()
+wezterm.on("gui-attached", function(domain)
+    local workspace = mux.get_active_workspace()
+    for _, window in ipairs(mux.all_windows()) do
+        if window:get_workspace() == workspace then
+            window:gui_window():maximize()
+            return
+        end
+    end
 end)
 
 -- Keymaps
@@ -51,11 +59,8 @@ config.keys = {
         mods = "CMD",
         action = act.SpawnCommandInNewTab({
             cwd = os.getenv("WEZTERM_CONFIG_DIR"),
-            set_environment_variables = {
-                TERM = "screen-256color",
-            },
             args = {
-                "/usr/local/bin/nvim",
+                "nvim",
                 os.getenv("WEZTERM_CONFIG_FILE"),
             },
         }),
