@@ -234,7 +234,7 @@ if.app-id = 'com.apple.Clock'
 run = ['layout floating']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Dictionaty'
+if.app-id = 'com.apple.Dictionary'
 run = ['layout floating']
 
 [[on-window-detected]]
@@ -291,5 +291,125 @@ run = ['layout floating']
 
 [[on-window-detected]]
 if.app-id = 'com.openai.chat'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.mail'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Safari'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.MobileSMS'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Notes'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.reminders'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Maps'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Photos'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.TextEdit'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Music'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.podcasts'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.TV'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.news'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.stocks'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.weather'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Translate'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.VoiceMemos'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.QuickTimePlayerX'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Screenshot'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Stickies'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.systempreferences'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ActivityMonitor'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.DiskUtility'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Terminal'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.ScriptEditor2'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.freeform'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Image_Capture'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.grapher'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.hnc.Discord'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'net.battle.app'
 run = ['layout floating']
 
