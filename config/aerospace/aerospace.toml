@@ -293,3 +293,11 @@ run = ['layout floating']
 if.app-id = 'com.openai.chat'
 run = ['layout floating']
 
+[[on-window-detected]]
+if.app-id = 'ch.sudo.cyberduck'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.sequel-ace.sequel-ace'
+run = ['layout floating']
+
