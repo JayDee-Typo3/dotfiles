@@ -202,11 +202,45 @@ alt-shift-l = ['join-with right', 'mode main']
 # Custom configurations #
 #########################
 
-# Force workspaces to monitores
+# Force workspaces to monitors.
+# Explicit monitor names (not 'main') so macOS's main-display choice can't create a collision.
+# Rule: every connected monitor must be covered by a distinct workspace, otherwise AeroSpace
+# parks a phantom workspace on the uncovered monitor.
+# Built-in is always workspace 1; the ROG/LG primary external is always workspace 2.
+#   Home (3): Built-in + ROG XG27AQ + XB271HU A -> ws1=Built-in, ws2=ROG, ws3=XB271HU
+#   Work (2): Built-in + LG HDR 4K              -> ws1=Built-in, ws2=LG (ws3 hidden on LG)
 [workspace-to-monitor-force-assignment]
-2 = ['LG HDR 4K', 'LEN P32p-20', 'ROG XG27AQ']
-1 = ['main']
-3 = ['LG HDR 4K', 'XB271HU A', 'LEN P32p-20']
+1 = ['Built-in Retina Display']
+2 = ['ROG XG27AQ', 'LG HDR 4K']
+3 = ['XB271HU A', 'LG HDR 4K']
+
+# Pin apps to workspaces (workspaces resolve to monitors above).
+#   ws1 -> Built-in:                       Outlook, Teams, WezTerm
+#   ws2 -> ROG (home) / LG HDR 4K (work):  PhpStorm
+#   ws3 -> XB271HU (home):                 Arc, Chrome
+[[on-window-detected]]
+if.app-id = 'com.jetbrains.PhpStorm'
+run = ['move-node-to-workspace 2']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.Outlook'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.microsoft.teams2'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'com.github.wez.wezterm'
+run = ['move-node-to-workspace 1']
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = ['move-node-to-workspace 3']
+
+[[on-window-detected]]
+if.app-id = 'com.google.Chrome'
+run = ['move-node-to-workspace 3']
 
 #  Window detection
 [[on-window-detected]]
