@@ -18,8 +18,13 @@ fi
 ###############################################################################
 # Install Powerlevel10k theme
 ###############################################################################
-echo "🎨 Installing Powerlevel10k ZSH theme..."
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+P10K_THEME_DIR="$HOME/.oh-my-zsh/custom/themes/powerlevel10k"
+if [ ! -d "$P10K_THEME_DIR" ]; then
+    echo "🎨 Installing Powerlevel10k ZSH theme..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$P10K_THEME_DIR"
+else
+    echo "✅ Powerlevel10k already installed."
+fi
 
 # Set theme in .zshrc (only if not already set)
 if ! grep -q 'ZSH_THEME="powerlevel10k/powerlevel10k"' "$HOME/.zshrc"; then
@@ -47,13 +52,14 @@ fi
 echo "🔄 Updating Homebrew..."
 brew update
 brew upgrade
-brew doctor
+# brew doctor exits non-zero on mere warnings; don't let that abort the setup (set -e)
+brew doctor || echo "⚠️  brew doctor reported warnings (see above)."
 
 ###############################################################################
 # Install DDEV
 ###############################################################################
 echo "🧱 Installing DDEV..."
-brew install drud/ddev/ddev
+brew install ddev/ddev/ddev
 
 ###############################################################################
 # Install mkcert and set up local CA
@@ -79,7 +85,6 @@ brew install gd
 brew install neovim
 brew install awk
 brew install tmux
-brew install ddev
 brew install lazygit
 brew install mas
 
@@ -88,21 +93,21 @@ brew install mas
 ###############################################################################
 echo "🎨 Installing LazyVim config..."
 
-# Backup existing config if any
-if [ -d "$HOME/.config/nvim" ] || [ -d "$HOME/.local/share/nvim" ]; then
-    echo "📦 Backing up existing Neovim config..."
-    mv "$HOME/.config/nvim" "$HOME/.config/nvim.backup.$(date +%s)" 2>/dev/null || true
-    mv "$HOME/.local/share/nvim" "$HOME/.local/share/nvim.backup.$(date +%s)" 2>/dev/null || true
+# Already set up by an earlier run (init.lua links into the dotfiles repo)? Then leave it alone.
+if [ -L "$HOME/.config/nvim/init.lua" ]; then
+    echo "✅ LazyVim config already linked from dotfiles – skipping starter."
+else
+    # Backup existing config if any
+    if [ -d "$HOME/.config/nvim" ] || [ -d "$HOME/.local/share/nvim" ]; then
+        echo "📦 Backing up existing Neovim config..."
+        mv "$HOME/.config/nvim" "$HOME/.config/nvim.backup.$(date +%s)" 2>/dev/null || true
+        mv "$HOME/.local/share/nvim" "$HOME/.local/share/nvim.backup.$(date +%s)" 2>/dev/null || true
+    fi
+
+    # Clone LazyVim starter (the dotfiles entries are linked over it further below)
+    git clone https://github.com/LazyVim/starter ~/.config/nvim
+    rm -rf ~/.config/nvim/.git
 fi
-
-# Clone LazyVim starter
-git clone https://github.com/LazyVim/starter ~/.config/nvim
-cd ~/.config/nvim
-rm -rf .git
-
-# Trigger plugin installation
-echo "🚀 Launching Neovim to install plugins (this may take a while)..."
-nvim --headless "+Lazy! sync" +qa
 
 ###############################################################################
 # Install GUI Apps (via Homebrew Cask)
@@ -162,7 +167,11 @@ if command -v git &>/dev/null; then
     DOT_FILE_REPO="https://github.com/JayDee-Typo3/dotfiles.git" # 👉🏽 set this to the repo you want to clone
     if [ -n "$DOT_FILE_REPO" ]; then
         echo "🔄 Cloning repository: $DOT_FILE_REPO"
-        git clone "$DOT_FILE_REPO"
+        if [ -d "$HOME/Development/Repositories/dotfiles/.git" ]; then
+            echo "✅ dotfiles repo already cloned – skipping."
+        else
+            git clone "$DOT_FILE_REPO"
+        fi
     else
         echo "⚠️  DOT_FILE_REPO is empty. Skipping git clone."
     fi
@@ -250,17 +259,55 @@ if [ -d "$NVIM_SOURCE" ]; then
         name=$(basename "$item")
         target="$NVIM_TARGET/$name"
 
+        # Already linked correctly (re-run) -> nothing to do
+        if [ -L "$target" ] && [ "$(readlink -f "$target")" = "$(readlink -f "$item")" ]; then
+            echo "✅ $name already linked."
+            continue
+        fi
+
         if [ -e "$target" ] || [ -L "$target" ]; then
-            echo "🔄 Backing up existing $target to $target.bak"
-            mv "$target" "$target.bak"
+            backup="$target.bak.$(date +%s)"
+            echo "🔄 Backing up existing $target to $backup"
+            mv "$target" "$backup"
         fi
 
         echo "🔗 Linking $name to ~/.config/nvim/"
         ln -s "$item" "$target"
     done
+
+    # Install plugins now that the real config is in place
+    echo "🚀 Launching Neovim to install plugins (this may take a while)..."
+    nvim --headless "+Lazy! sync" +qa
 else
     echo "❌ No Neovim config found at $NVIM_SOURCE"
 fi
+
+###############################################################################
+# Link zsh config and aliases (.zshrc, .alias_list)
+###############################################################################
+# Oh My Zsh created a default ~/.zshrc earlier; replace it with the repo version.
+link_home_file() {
+    local source="$1" target="$2"
+
+    if [ ! -f "$source" ]; then
+        echo "❌ $source not found – skipping."
+        return
+    fi
+    if [ -L "$target" ] && [ "$(readlink -f "$target")" = "$(readlink -f "$source")" ]; then
+        echo "✅ $(basename "$target") already linked."
+        return
+    fi
+    if [ -e "$target" ] || [ -L "$target" ]; then
+        local backup="$target.bak.$(date +%s)"
+        echo "🔄 Backing up existing $target to $backup"
+        mv "$target" "$backup"
+    fi
+    echo "🔗 Linking $(basename "$target")..."
+    ln -s "$source" "$target"
+}
+
+link_home_file "$DOTFILES_REPO/ohmyzsh/.zshrc" "$HOME/.zshrc"
+link_home_file "$DOTFILES_REPO/bash/.alias_list" "$HOME/.alias_list"
 
 ###############################################################################
 # Done – ready for your custom steps

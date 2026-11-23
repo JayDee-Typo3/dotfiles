@@ -1,7 +1,7 @@
 -- Pull in the wezterm API
 local wezterm = require("wezterm")
 local act = wezterm.action
-local mux = wezterm.mus
+local mux = wezterm.mux
 
 -- This will hold the configuration.
 local config = wezterm.config_builder()
@@ -55,7 +55,7 @@ config.keys = {
                 TERM = "screen-256color",
             },
             args = {
-                "/usr/local/bin/nvim",
+                "/opt/homebrew/bin/nvim",
                 os.getenv("WEZTERM_CONFIG_FILE"),
             },
         }),

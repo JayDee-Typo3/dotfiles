@@ -268,7 +268,7 @@ if.app-id = 'com.apple.Clock'
 run = ['layout floating']
 
 [[on-window-detected]]
-if.app-id = 'com.apple.Dictionaty'
+if.app-id = 'com.apple.Dictionary'
 run = ['layout floating']
 
 [[on-window-detected]]
