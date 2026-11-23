@@ -131,3 +131,20 @@ fi
 [[ ! -f ~/.alias_list_local ]] || source ~/.alias_list_local
 
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# gittoolbox
+export PATH="/Users/jdelesky/.gittoolbox/bin:$PATH" # gittoolbox
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jdelesky/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+# zoxide (smarter cd) — must come after compinit; only if installed
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Added by the Postman CLI installer
+export PATH='/Users/jdelesky/.local/bin':"$PATH"
