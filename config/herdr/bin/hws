@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# hws – create a herdr workspace with three tabs: cli | claude | lazygit
+#
+# Usage: hws [DIR] [LABEL]
+#   DIR    working directory of the workspace (default: current directory)
+#   LABEL  workspace label (default: basename of DIR)
+#
+# Needs a running herdr server, jq, claude and lazygit.
+set -euo pipefail
+
+case "${1:-}" in
+  -h|--help) sed -n '2,8p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+esac
+
+dir=$(cd "${1:-$PWD}" && pwd)
+label=${2:-$(basename "$dir")}
+
+for cmd in herdr jq; do
+  command -v "$cmd" >/dev/null || { echo "hws: '$cmd' not found" >&2; exit 1; }
+done
+
+ws=$(herdr workspace create --cwd "$dir" --label "$label" --focus)
+wsid=$(jq -r .result.workspace.workspace_id <<<"$ws")
+
+# Tab 1: the tab herdr creates with the workspace, plain shell
+herdr tab rename "$(jq -r .result.tab.tab_id <<<"$ws")" cli >/dev/null
+
+# Tab 2 and 3: new tab, then start the program in its root pane
+new_tab() { # <label> <command>
+  local tab
+  tab=$(herdr tab create --workspace "$wsid" --cwd "$dir" --label "$1" --no-focus)
+  herdr pane run "$(jq -r .result.root_pane.pane_id <<<"$tab")" "$2" >/dev/null
+}
+new_tab claude claude
+new_tab lazygit lazygit
+
+echo "hws: workspace '$label' created in $dir"
