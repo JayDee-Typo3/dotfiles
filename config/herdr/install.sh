@@ -30,6 +30,6 @@ case ":$PATH:" in
   *) echo "note: $target is not in your PATH" ;;
 esac
 
-for cmd in herdr jq claude lazygit; do
+for cmd in herdr jq claude nvim; do
   command -v "$cmd" >/dev/null || echo "missing: $cmd (needed by hws)"
 done

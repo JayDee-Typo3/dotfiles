@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
-# hws – create a herdr workspace with three tabs: cli | claude | lazygit
+# hws – create a herdr workspace with three tabs: cli | claude | nvim
 #
 # Usage: hws [DIR] [LABEL]
 #   DIR    working directory of the workspace (default: current directory)
 #   LABEL  workspace label (default: basename of DIR)
 #
-# Needs a running herdr server, jq, claude and lazygit.
+# Needs a running herdr server, jq, claude and nvim.
 set -euo pipefail
 
 case "${1:-}" in
@@ -32,6 +32,6 @@ new_tab() { # <label> <command>
   herdr pane run "$(jq -r .result.root_pane.pane_id <<<"$tab")" "$2" >/dev/null
 }
 new_tab claude claude
-new_tab lazygit lazygit
+new_tab nvim nvim
 
 echo "hws: workspace '$label' created in $dir"
